@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "public/assets/",
+    "sourceMap": true,
+    "jsx": "react-jsx",
+    "resolveJsonModule": true
+  },
+  "include": [ "./src" ],
+}
