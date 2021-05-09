@@ -1,5 +1,6 @@
 // @ts-ignore
 import FlatQueue from 'flatqueue';
+import now from 'performance-now';
 import Game from './Game';
 import Solution from './Solution';
 import { Colours, Obstacle, Point, Robot, Target } from './types';
@@ -17,16 +18,21 @@ export default class Solver {
     solve(game: Game): Solution {
         const sol = new Solution();
 
-        const precalcStart = performance.now();
+        const precalcStart = now();
         this.precalculatedMoves = this.precalculateMoves(game.board.obstacles);
         this.precalculatedDistances = this.precalculateMinimumDistances(game.target);
-        sol.precalculationDuration = (performance.now() - precalcStart);
+        sol.precalculationDuration = (now() - precalcStart);
 
         const initialState = new State(null, game.robots, 0, null);
 
-        const searchStart = performance.now();
+        const searchStart = now();
         const finalState = this.search(initialState, game.target);
-        sol.searchDuration = (performance.now() - searchStart);
+        sol.statesVisited = this.statesVisited;
+        sol.searchDuration = (now() - searchStart);
+
+        if (finalState !== null) {
+            sol.solution = finalState.getPrintableSolution();
+        }
 
         return sol;
     }
@@ -151,6 +157,10 @@ export default class Solver {
         const moves: PrecalculatedMoves = {};
 
         for (let x = 0; x < 16; x++) {
+            if (!(x in moves)) {
+                moves[x] = {};
+            }
+
             for (let y = 0; y < 16; y++) {
                 moves[x][y] = Movement.getAvailableMoves({ x, y }, obstacles);
             }
@@ -196,6 +206,10 @@ export default class Solver {
                             continue;
                         }
 
+                        if (!(x in minDistances)) {
+                            minDistances[x] = {};
+                        }
+
                         minDistances[x][y1] = depth;
                         newPositions.push({ x, y: y1 });
                     }
@@ -203,6 +217,10 @@ export default class Solver {
                     for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
                         if (x1 in minDistances && y in minDistances[x1]) {
                             continue;
+                        }
+
+                        if (!(x1 in minDistances)) {
+                            minDistances[x1] = {};
                         }
 
                         minDistances[x1][y] = depth;

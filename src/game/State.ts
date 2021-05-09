@@ -77,6 +77,21 @@ export default class State {
         return parts.join();
     }
 
+    getPrintableSolution(): string {
+        const states: State[] = this.getSolutionStates();
+        const robotMoves: Robot[] = [];
+
+        for (let i = 0; i < states.length - 1; i++) {
+            const current = states[i];
+            const next = states[i + 1];
+            robotMoves.push(current.getMovedRobot(next));
+        }
+
+        return robotMoves.map((r: Robot): string => {
+            return r.colour + ' to ' + r.point.x + ', ' + r.point.y;
+        }).join("\n");
+    }
+
     /**
      * Get the sequence of states leading up to and including this one
      */
@@ -90,5 +105,23 @@ export default class State {
         }
 
         return states.reverse();
+    }
+
+    /**
+     * Get the robot that moved between this state and the provided next state
+     */
+    private getMovedRobot(next: State): Robot {
+        for (const currentRobot of this.robotPositions) {
+            for (const nextRobot of next.robotPositions) {
+                if (
+                    nextRobot.colour === currentRobot.colour &&
+                    (nextRobot.point.x !== currentRobot.point.x || nextRobot.point.y !== currentRobot.point.y)
+                ) {
+                    return nextRobot;
+                }
+            }
+        }
+
+        throw 'No robots moved between this and next state';
     }
 }
