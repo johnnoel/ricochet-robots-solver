@@ -10,9 +10,13 @@ const logger = createLogger({
     collapsed: true,
 });
 
-export default configureStore({
+const store = configureStore({
     reducer: {
         gameBuilder: gameBuilderReducer,
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
 });
+
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { State } from '../../store';
+import { AppDispatch, State } from '../../store';
 import { Point, Robot, Target } from '../../game/types';
 
 export interface GameBuilderState {
     selectedCell: Point|null,
     robots: Robot[],
     target: Target|null,
+    solving: boolean;
 }
 
 export const gameBuilderSlice = createSlice({
@@ -14,6 +15,7 @@ export const gameBuilderSlice = createSlice({
         selectedCell: null,
         robots: [],
         target: null,
+        solving: false,
     } as GameBuilderState,
     reducers: {
         selectCell: (state, action) => {
@@ -38,13 +40,22 @@ export const gameBuilderSlice = createSlice({
                 (r: Robot): boolean => r.point.x !== action.payload.x && r.point.y !== action.payload.y
             );
         },
+
+        startSolving: (state) => {
+            state.solving = true;
+        },
+
+        finishSolving: (state) => {
+            state.solving = false;
+        }
     },
 });
 
 export const selectCurrentlySelectedCell = (state: State): Point|null => state.gameBuilder.selectedCell;
 export const selectRobots = (state: State): Robot[] => state.gameBuilder.robots;
 export const selectTarget = (state: State): Target|null => state.gameBuilder.target;
+export const selectSolving = (state: State): boolean => state.gameBuilder.solving;
 
-export const { selectCell, setEmpty, setRobot, setTarget } = gameBuilderSlice.actions;
+export const { finishSolving, selectCell, setEmpty, setRobot, setTarget, startSolving } = gameBuilderSlice.actions;
 
 export default gameBuilderSlice.reducer;
