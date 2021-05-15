@@ -19,7 +19,7 @@ const Solution = ({ solution }: SolutionProps): ReactElement|null => {
 
             return <path
                 key={idx}
-                className="trace"
+                className={[ 'trace' ].join(' ')}
                 d={d.join(' ')}
                 stroke="black"
                 strokeWidth="2"
