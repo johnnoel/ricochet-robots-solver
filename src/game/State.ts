@@ -1,4 +1,4 @@
-import { Colours, Point, Robot, Target } from './types';
+import { Colours, Move, Point, Robot, Target } from './types';
 
 /**
  * Represents a game state during solving
@@ -75,6 +75,25 @@ export default class State {
         }
 
         return parts.join();
+    }
+
+    getSolution(): Move[] {
+        const states = this.getSolutionStates();
+        const moves: Move[] = [];
+
+        for (let i = 0; i < (states.length - 1); i++) {
+            const current = states[i];
+            const next = states[i + 1];
+            const robot = current.getMovedRobot(next);
+            const currentRobot = current.robotPositions.filter((r): boolean => r.colour === robot.colour)[0];
+
+            moves.push({
+                start: currentRobot.point,
+                end: robot.point,
+            });
+        }
+
+        return moves;
     }
 
     getPrintableSolution(): string {

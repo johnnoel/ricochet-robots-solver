@@ -19,7 +19,7 @@ self.addEventListener('message', (e) => {
     const solver: Solver = new Solver();
     const solution = solver.solve(game);
 
-    self.postMessage(solution.solution);
+    self.postMessage(solution);
 });
 
 export interface MessageData {

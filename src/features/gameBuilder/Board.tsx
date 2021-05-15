@@ -5,19 +5,21 @@ import {
     selectCell,
     selectCurrentlySelectedCell,
     selectObstacles,
-    selectRobots,
+    selectRobots, selectSolution,
     selectTarget
 } from './gameBuilderSlice';
 import Robots from './Robots';
 import Obstacle from './Obstacle';
 import { Obstacle as ObstacleType } from '../../game/types';
 import Target from './Target';
+import Solution from './Solution';
 
 const Board = () => {
     const selectedCell = useSelector(selectCurrentlySelectedCell);
     const robots = useSelector(selectRobots);
     const target = useSelector(selectTarget);
     const obstacles = useSelector(selectObstacles);
+    const solution = useSelector(selectSolution);
     const dispatch = useDispatch();
 
     return (
@@ -42,6 +44,7 @@ const Board = () => {
                     <Target target={target} />
                 </svg>
 
+                <Solution solution={solution} />
                 <Robots robots={robots} />
             </div>
 

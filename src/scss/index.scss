@@ -128,3 +128,13 @@
         stroke: var(--bs-yellow);
     }
 }
+
+.traces {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    .trace {
+        stroke-width: 4px;
+    }
+}

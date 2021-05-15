@@ -2,8 +2,7 @@
 import FlatQueue from 'flatqueue';
 import now from 'performance-now';
 import Game from './Game';
-import Solution from './Solution';
-import { Colours, Obstacle, Point, Robot, Target } from './types';
+import { Colours, Obstacle, Point, Robot, Solution, Target } from './types';
 import State from './State';
 import Movement from './Movement';
 
@@ -16,7 +15,13 @@ export default class Solver {
      * Solve the provided game and return a solution
      */
     solve(game: Game): Solution {
-        const sol = new Solution();
+        const sol: Solution = {
+            precalculationDuration: null,
+            searchDuration: null,
+            statesVisited: 0,
+            moves: [],
+            solution: null,
+        };
 
         const precalcStart = now();
         this.precalculatedMoves = this.precalculateMoves(game.board.obstacles);
@@ -31,6 +36,7 @@ export default class Solver {
         sol.searchDuration = (now() - searchStart);
 
         if (finalState !== null) {
+            sol.moves = finalState.getSolution();
             sol.solution = finalState.getPrintableSolution();
         }
 

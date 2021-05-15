@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AppDispatch, State } from '../../store';
-import { Obstacle, Point, Robot, Target } from '../../game/types';
+import { State } from '../../store';
+import { Colours, Obstacle, Point, Robot, Solution, Target } from '../../game/types';
 
 export interface GameBuilderState {
     obstacles: Obstacle[];
     selectedCell: Point|null;
     robots: Robot[];
     target: Target|null;
+    solution: Solution|null;
     solving: boolean;
 }
 
@@ -25,8 +26,15 @@ export const gameBuilderSlice = createSlice({
             { points: [ { x: 9, y: 9 }, { x: 11, y: 9 }, { x: 11, y: 11 }, { x: 9, y: 11 }, { x: 9, y: 9 } ] },
         ],
         selectedCell: null,
-        robots: [],
-        target: null,
+        robots: [
+            { colour: Colours.RED, point: { x: 0, y: 0 } },
+            { colour: Colours.BLUE, point: { x: 0, y: 5 } },
+            { colour: Colours.GREEN, point: { x: 7, y: 0 } },
+            { colour: Colours.YELLOW, point: { x: 6, y: 0 } },
+            { colour: Colours.SILVER, point: { x: 5, y: 0 } },
+        ],
+        target: { colour: Colours.RED, point: { x: 4, y: 3 } },
+        solution: null,
         solving: false,
     } as GameBuilderState,
     reducers: {
@@ -57,8 +65,9 @@ export const gameBuilderSlice = createSlice({
             state.solving = true;
         },
 
-        finishSolving: (state) => {
+        finishSolving: (state, action) => {
             state.solving = false;
+            state.solution = action.payload;
         }
     },
 });
@@ -67,6 +76,7 @@ export const selectObstacles = (state: State): Obstacle[] => state.gameBuilder.o
 export const selectCurrentlySelectedCell = (state: State): Point|null => state.gameBuilder.selectedCell;
 export const selectRobots = (state: State): Robot[] => state.gameBuilder.robots;
 export const selectTarget = (state: State): Target|null => state.gameBuilder.target;
+export const selectSolution = (state: State): Solution|null => state.gameBuilder.solution;
 export const selectSolving = (state: State): boolean => state.gameBuilder.solving;
 
 export const { finishSolving, selectCell, setEmpty, setRobot, setTarget, startSolving } = gameBuilderSlice.actions;

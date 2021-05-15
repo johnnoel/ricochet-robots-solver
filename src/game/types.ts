@@ -39,3 +39,11 @@ export interface Move {
 export interface Obstacle {
     points: Point[];
 }
+
+export interface Solution {
+    precalculationDuration: number|null;
+    searchDuration: number|null;
+    statesVisited: number;
+    moves: Move[];
+    solution: string|null;
+}
