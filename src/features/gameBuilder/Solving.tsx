@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { finishSolving } from './gameBuilderSlice';
+import { Obstacle, Robot, Target } from '../../game/types';
+import { MessageData } from './worker';
 
-const Solving = (): null => {
+const Solving = ({ obstacles, robots, target }: SolvingProps): null => {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -14,7 +16,7 @@ const Solving = (): null => {
         };
 
         console.log('post message');
-        worker.postMessage('hello there, this would be game state');
+        worker.postMessage({ obstacles, robots, target } as MessageData);
         worker.addEventListener('message', onMessage);
 
         return () => {
@@ -24,6 +26,12 @@ const Solving = (): null => {
     });
 
     return null;
+}
+
+interface SolvingProps {
+    obstacles: Obstacle[];
+    robots: Robot[];
+    target: Target;
 }
 
 export default Solving;

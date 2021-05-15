@@ -11,6 +11,7 @@ import {
 import Robots from './Robots';
 import Obstacle from './Obstacle';
 import { Obstacle as ObstacleType } from '../../game/types';
+import Target from './Target';
 
 const Board = () => {
     const selectedCell = useSelector(selectCurrentlySelectedCell);
@@ -38,16 +39,7 @@ const Board = () => {
                         {obstacles.map((o: ObstacleType) => <Obstacle key={o.points.map(p => p.x + ',' + p.y).join()} obstacle={o} />)}
                     </g>
 
-                    {(target !== null) ? <g id="targets">
-                        <circle
-                            className={'grid-target grid-target-' + target.colour}
-                            cx={target.point.x * 6.25 + 3.125}
-                            cy={target.point.y * 6.25 + 3.125}
-                            r="2.25"
-                            fill="none"
-                            strokeWidth="2" vectorEffect="non-scaling-stroke"
-                        />
-                    </g> : null}
+                    <Target target={target} />
                 </svg>
 
                 <Robots robots={robots} />

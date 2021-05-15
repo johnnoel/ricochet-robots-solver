@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Colours, Point, Robot, Target } from '../../game/types';
 import {
-    selectCurrentlySelectedCell,
+    selectCurrentlySelectedCell, selectObstacles,
     selectRobots,
     selectSolving,
     selectTarget,
@@ -19,6 +19,7 @@ const CellWidget = () => {
     const robots = useSelector(selectRobots);
     const target = useSelector(selectTarget);
     const solving = useSelector(selectSolving);
+    const obstacles = useSelector(selectObstacles);
 
     if (selectedCell === null) {
         return null;
@@ -50,7 +51,7 @@ const CellWidget = () => {
         </div>
 
         <button type="button" className="btn btn-lg btn-primary" disabled={!canSolve && !solving} onClick={() => dispatch(startSolving())}>Solve</button>
-        {(solving) ? <Solving /> : null}
+        {(solving && target !== null) ? <Solving obstacles={obstacles} robots={robots} target={target} /> : null}
     </div>;
 }
 
