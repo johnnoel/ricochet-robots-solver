@@ -1,13 +1,22 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ClickGrid from './ClickGrid';
-import { selectCell, selectCurrentlySelectedCell, selectRobots, selectTarget } from './gameBuilderSlice';
+import {
+    selectCell,
+    selectCurrentlySelectedCell,
+    selectObstacles,
+    selectRobots,
+    selectTarget
+} from './gameBuilderSlice';
 import Robots from './Robots';
+import Obstacle from './Obstacle';
+import { Obstacle as ObstacleType } from '../../game/types';
 
 const Board = () => {
     const selectedCell = useSelector(selectCurrentlySelectedCell);
     const robots = useSelector(selectRobots);
     const target = useSelector(selectTarget);
+    const obstacles = useSelector(selectObstacles);
     const dispatch = useDispatch();
 
     return (
@@ -26,32 +35,7 @@ const Board = () => {
                         <rect className="grid-enclosed" width="6.25" height="6.25" x="43.75" y="50" fill="gray" />
                     </g>
                     <g id="obstacles">
-                        <path className="grid-obstacle" d="M 37.5 0 L 37.5 6.25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 18.75 18.75 L 18.75 12.5 25 12.5" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 31.25 18.75 L 31.25 25 37.5 25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 0 25 L 6.25 25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 12.5 25 L 18.75 25 18.75 31.25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 25 37.5 L 31.25 37.5 31.25 31.25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 100 12.5 L 93.75 12.5" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 93.75 25 L 93.75 31.25 87.5 31.25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 81.25 6.25 L 75 6.25 75 12.5" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 62.5 0 L 62.5 6.25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 56.25 18.75 L 56.25 25 62.5 25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 62.5 31.25 L 68.75 31.25 68.75 37.5" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 81.25 100 L 81.25 93.75" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 68.75 93.75 L 68.75 87.5 62.5 87.5" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 56.25 81.25 L 50 81.25 50 87.5" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 100 75 L 93.75 75" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 81.25 68.75 L 75 68.75 75 75" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 93.75 62.5 L 87.5 62.5 87.5 56.25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 62.5 62.5 L 62.5 68.75 56.25 68.75" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 0 87.5 L 6.25 87.5" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 12.5 81.25 L 6.25 81.25 6.25 75" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 25 62.5 L 25 56.25 18.75 56.25" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 25 93.75 L 31.25 93.75 31.25 87.5" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 37.5 75 L 37.5 68.75 43.75 68.75" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <path className="grid-obstacle" d="M 43.75 100 L 43.75 93.75" stroke="black" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                        <polygon className="grid-obstacle" points="43.75,43.75 56.25,43.75 56.25,56.25 43.75,56.25 " stroke="black" fill="none" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+                        {obstacles.map((o: ObstacleType) => <Obstacle key={o.points.map(p => p.x + ',' + p.y).join()} obstacle={o} />)}
                     </g>
 
                     {(target !== null) ? <g id="targets">
