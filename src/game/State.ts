@@ -31,6 +31,7 @@ export default class State {
     isSolution(target: Target): boolean {
         for (let i = 0; i < this.robotPositions.length; i++) {
             if (
+                this.robotPositions[i].colour === target.colour &&
                 this.robotPositions[i].point.x === target.point.x &&
                 this.robotPositions[i].point.y === target.point.y
             ) {
