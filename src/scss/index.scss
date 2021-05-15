@@ -1,2 +1,130 @@
-body {
+@import '~bootstrap/scss/bootstrap.scss';
+
+.board {
+    position: relative;
+    padding: 100% 0 0 0;
+}
+
+.board-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.clickgrid {
+    &-cell {
+        width: 6.25%;
+        height: 6.25%;
+        float: left;
+        cursor: pointer;
+        border: 4px solid rgba(0, 0, 0, 0);
+        box-sizing: border-box;
+
+        &:hover, &:focus {
+            border-color: var(--bs-red);
+        }
+    }
+
+    &-selected {
+        border-color: var(--bs-blue);
+    }
+}
+
+.robot {
+    position: absolute;
+    width: 6.25%;
+    height: 6.25%;
+
+    svg {
+        position: absolute;
+        width: 90%;
+        height: 90%;
+        left: 7%;
+        top: 6%;
+    }
+
+    &.robot-red svg path { fill: var(--bs-red); }
+    &.robot-green svg path { fill: var(--bs-green); }
+    &.robot-blue svg path { fill: var(--bs-blue); }
+    &.robot-yellow svg path { fill: var(--bs-yellow); }
+    &.robot-silver svg path { fill: var(--bs-gray); }
+
+    &.robot-x0 { left: 0; }
+    &.robot-x1 { left: 6.25%; }
+    &.robot-x2 { left: 12.5%; }
+    &.robot-x3 { left: 18.75%; }
+    &.robot-x4 { left: 25%; }
+    &.robot-x5 { left: 31.25%; }
+    &.robot-x6 { left: 37.5%; }
+    &.robot-x7 { left: 43.75%; }
+    &.robot-x8 { left: 50%; }
+    &.robot-x9 { left: 56.25%; }
+    &.robot-x10 { left: 62.5%; }
+    &.robot-x11 { left: 68.75%; }
+    &.robot-x12 { left: 75%; }
+    &.robot-x13 { left: 81.25%; }
+    &.robot-x14 { left: 87.5%; }
+    &.robot-x15 { left: 93.75%; }
+
+    &.robot-y0 { top: 0; }
+    &.robot-y1 { top: 6.25%; }
+    &.robot-y2 { top: 12.5%; }
+    &.robot-y3 { top: 18.75%; }
+    &.robot-y4 { top: 25%; }
+    &.robot-y5 { top: 31.25%; }
+    &.robot-y6 { top: 37.5%; }
+    &.robot-y7 { top: 43.75%; }
+    &.robot-y8 { top: 50%; }
+    &.robot-y9 { top: 56.25%; }
+    &.robot-y10 { top: 62.5%; }
+    &.robot-y11 { top: 68.75%; }
+    &.robot-y12 { top: 75%; }
+    &.robot-y13 { top: 81.25%; }
+    &.robot-y14 { top: 87.5%; }
+    &.robot-y15 { top: 93.75%; }
+}
+
+.grid-line, .grid-container {
+    stroke: #DDD;
+}
+
+.grid-obstacle {
+    stroke: #333;
+    //stroke-width: 3;
+    stroke-linejoin: round;
+
+    //@include media-breakpoint-up(md) {
+        //stroke-width: 4;
+    //}
+
+    //@include media-breakpoint-up(lg) {
+        stroke-width: 6;
+    //}
+}
+
+.grid-enclosed {
+    fill: #DDD;
+    opacity: .5;
+}
+
+.grid-target {
+    stroke-width: 6;
+
+    &-red {
+        stroke: var(--bs-red);
+    }
+
+    &-green {
+        stroke: var(--bs-green);
+    }
+
+    &-blue {
+        stroke: var(--bs-blue);
+    }
+
+    &-yellow {
+        stroke: var(--bs-yellow);
+    }
 }
