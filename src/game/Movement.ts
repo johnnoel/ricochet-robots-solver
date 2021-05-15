@@ -93,7 +93,7 @@ export default class Movement {
         filteredObstacles.sort((a: Obstacle, b: Obstacle): number => {
             // get either the x or y coordinate depending on the axis
             const ap = a.points[0][axis];
-            const bp = a.points[0][axis];
+            const bp = b.points[0][axis];
 
             if (ap === bp) {
                 return 0;
